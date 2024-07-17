@@ -1,0 +1,41 @@
+
+#京东云ak sk 地域获取哪些地域的机器就填哪些地域
+jdcloud:
+  accessKey: ak
+  secretKey: sk
+  regions:
+    - cn-north-1
+    - cn-east-1
+    - cn-east-2
+    - cn-south-1
+
+
+
+#在jumpserver区分京东云主机的标签 勿删
+sysLabel:
+  - 京东云主机:jdcloud
+
+
+jumpserver:
+  url: http://domain.com
+  user: {username}
+  password: {password}
+
+
+schedule:
+  interval: 30 # 执行间隔时间，以秒为单位
+
+
+#key：京东云标签 value:jumpserver对应的目录pk
+tags:
+  - key: testTag
+    value: c3c6b59d-ea7d-402b-ae5c-6ef51fe106bb
+    ##账号模版id,支持多个
+    accounts:
+      - 9c2944fd-3c45-4fd8-935f-4ac2aac35f1f
+
+  - key: testTag1
+    value: 880a8214-34e0-4150-8d42-66c383be63ac
+    ##账号模版id,支持多个
+    accounts:
+      - 9c2944fd-3c45-4fd8-935f-4ac2aac35f1f
