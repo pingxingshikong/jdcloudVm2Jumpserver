@@ -310,8 +310,6 @@ func UpdateAsset(baseURL, api, token string, assetData map[string]interface{}) (
 	}
 
 	return id, nil
-
-	//return string(body), nil
 }
 
 // TokenResponse 定义从 Jumpserver 获取 token 的响应结构
@@ -406,7 +404,6 @@ func DeleteAssetByLabelID(baseURL, id, token string, labelId string) error {
 	}
 	defer resp.Body.Close()
 
-	// 打印响应 body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Printf("Error reading response body: %v\n", err)
@@ -458,7 +455,6 @@ func GetLabelID(config *config.Config, token string) (string, error) {
 func GetLabelInstanceID(config *config.Config, token string, name string) (string, error) {
 	labelValue := url.QueryEscape(name)
 	url := fmt.Sprintf("%s/api/v1/labels/labeled-resources/?search=%s", config.Jumpserver.URL, labelValue)
-
 	log.Printf(url)
 	req, err := http.NewRequest("GET", url, nil)
 
@@ -469,7 +465,6 @@ func GetLabelInstanceID(config *config.Config, token string, name string) (strin
 
 	req.Header.Set("Authorization", "Bearer "+token)
 
-	log.Printf(token)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -484,9 +479,6 @@ func GetLabelInstanceID(config *config.Config, token string, name string) (strin
 	if err != nil {
 		return "", fmt.Errorf("error reading response body: %w", err)
 	}
-
-	// 打印响应的 body
-	fmt.Println("Response Body: " + string(body))
 
 	var labelData []LabelData
 	err = json.Unmarshal(body, &labelData) // 使用 body 进行解码

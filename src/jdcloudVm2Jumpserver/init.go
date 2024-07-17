@@ -52,7 +52,6 @@ func runTask(config *config.Config) {
 	log.Println("Fetched asset list: ", assetMap)
 	// 遍历所有地域，获取云主机列表
 	var allInstances []models.Instance
-	var allInstancesSource []models.Instance
 
 	for _, region := range config.JDCloud.Regions {
 		instances, err := jdcloud.GetCloudHostList(config.JDCloud.AccessKey, config.JDCloud.SecretKey, region)
@@ -60,10 +59,8 @@ func runTask(config *config.Config) {
 			log.Printf("Error getting cloud host list for region %s: %v \n", region, err)
 			continue
 		}
-
 		matchedInstances := matchJdCloudVmTag(instances, config.Tags)
 		allInstances = append(allInstances, matchedInstances...)
-		allInstancesSource = append(allInstancesSource, instances...)
 	}
 
 	// 打印云主机数量
@@ -81,9 +78,8 @@ func runTask(config *config.Config) {
 
 	jumpserver.DeleteNewJumpServerInstance(config, token, allInstances)
 
-	//创建新的云主机
-	jumpserver.CreteNewJumpServerInstance(config, token, allInstances)
+	jumpserver.CreteJumpServerInstance(config, token, allInstances)
 
-	jumpserver.UpdateNewJumpServerInstance(config, token, allInstances)
+	jumpserver.UpdateJumpServerInstance(config, token, allInstances)
 
 }

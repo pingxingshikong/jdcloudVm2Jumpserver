@@ -33,6 +33,7 @@ type Tag struct {
 	Key      string   `yaml:"key"`
 	Value    string   `yaml:"value"`
 	Accounts []string `yaml:"accounts"`
+	Prefix   string   `yaml:"prefix"`
 }
 
 // 读取配置文件

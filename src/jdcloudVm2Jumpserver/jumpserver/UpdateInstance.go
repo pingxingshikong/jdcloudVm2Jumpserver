@@ -7,7 +7,7 @@ import (
 )
 
 // 京东云有此资源 但是jumpserver也有 但是jumpserver缺少pk  并且符合本程序的标签规则
-func UpdateNewJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
+func UpdateJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
 	// 获取资产列表
 	assetMap, err := FetchAssetObjectListLabelsAll(config, config.Jumpserver.URL, "/api/v1/assets/hosts/", token)
 	if err != nil {

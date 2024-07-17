@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func CreteNewJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
+func CreteJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
 	// 获取资产列表
 	assetMap, err := FetchAssetObjectListLabels(config, config.Jumpserver.URL, "/api/v1/assets/hosts/", token)
 	if err != nil {
@@ -79,8 +79,26 @@ func matchTagsAccount(instanceTags []disk.Tag, configTags []config.Tag) []string
 	return matchedValues
 }
 
+func matchTagsPrefix(instanceTags []disk.Tag, configTags []config.Tag) []string {
+	var matchedValues []string
+	for _, configTag := range configTags {
+		for _, instanceTag := range instanceTags {
+			if instanceTag.Key != nil && *instanceTag.Value == configTag.Key {
+				if instanceTag.Value != nil && configTag.Prefix != "" {
+					matchedValues = append(matchedValues, configTag.Prefix)
+				}
+			}
+		}
+	}
+	return matchedValues
+}
+
 func FetchAssetJd2JumpServerHasPK(config *config.Config, instance models.Instance, token string, pks []string) (string, error) {
-	name := "JD-" + instance.InstanceName
+	prefixs := matchTagsPrefix(instance.Tags, config.Tags)
+	name := instance.InstanceName
+	if prefixs != nil && len(prefixs) > 0 {
+		name = prefixs[0] + name
+	}
 	//根据Instance获取pk
 	assetData := map[string]interface{}{
 		"set_active": true,
