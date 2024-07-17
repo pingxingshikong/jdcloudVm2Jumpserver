@@ -57,7 +57,7 @@ status() {
 
 # 显示用法
 usage() {
-    echo "Usage: \$0 {start|stop|restart}"
+    echo "Usage: \$0 {start|stop|restart|status}"
     exit 1
 }
 
