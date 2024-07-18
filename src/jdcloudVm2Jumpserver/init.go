@@ -48,6 +48,7 @@ func runTask(config *config.Config) {
 	assetMap, err := jumpserver.FetchAssetObjectListLabels(config, config.Jumpserver.URL, "/api/v1/assets/hosts/", token)
 	if err != nil {
 		log.Fatalf("Error fetching asset list: %v", err)
+		return
 	}
 	log.Println("Fetched asset list: ", assetMap)
 	// 遍历所有地域，获取云主机列表
@@ -76,7 +77,7 @@ func runTask(config *config.Config) {
 
 	jumpserver.DeleteByJdCloudNotExistButJumpServerExist(config, token, allInstances)
 
-	jumpserver.DeleteNewJumpServerInstance(config, token, allInstances)
+	jumpserver.DeleteJumpServerInstance(config, token, allInstances)
 
 	jumpserver.CreteJumpServerInstance(config, token, allInstances)
 

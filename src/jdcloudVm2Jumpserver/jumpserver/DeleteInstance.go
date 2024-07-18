@@ -32,7 +32,7 @@ func DeleteByJdCloudNotExistButJumpServerExist(config *config.Config, token stri
 }
 
 // 京东云有此资源 但是jumpserver也有 但是jumpserver多pk  并且符合本程序的标签规则
-func DeleteNewJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
+func DeleteJumpServerInstance(config *config.Config, token string, allInstances []models.Instance) {
 	// 获取资产列表
 	assetMap, err := FetchAssetObjectListLabelsAll(config, config.Jumpserver.URL, "/api/v1/assets/hosts/", token)
 	if err != nil {
