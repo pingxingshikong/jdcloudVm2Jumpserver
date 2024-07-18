@@ -30,7 +30,6 @@ schedule:
 tags:
   - key: testTag
     value: c3c6b59d-ea7d-402b-ae5c-6ef51fe106bb
-    #写入jumpserver中的主机instanceName添加前缀
     prefix: JD-
     ##账号模版id,支持多个
     accounts:

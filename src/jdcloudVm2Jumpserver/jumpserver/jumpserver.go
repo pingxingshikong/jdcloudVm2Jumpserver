@@ -247,14 +247,12 @@ func CreateAsset(baseURL, api, token string, assetData map[string]interface{}) (
 		return "", err
 	}
 
-	// 解析 JSON 响应
 	var responseData map[string]interface{}
 	err = json.Unmarshal(body, &responseData)
 	if err != nil {
 		return "", err
 	}
 
-	// 提取 id 字段
 	id, ok := responseData["id"].(string)
 	if !ok {
 		responseDataStr, err := json.MarshalIndent(responseData, "", "  ")
@@ -474,14 +472,13 @@ func GetLabelInstanceID(config *config.Config, token string, name string) (strin
 	}
 	defer resp.Body.Close()
 
-	// 读取响应的 body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", fmt.Errorf("error reading response body: %w", err)
 	}
 
 	var labelData []LabelData
-	err = json.Unmarshal(body, &labelData) // 使用 body 进行解码
+	err = json.Unmarshal(body, &labelData)
 	if err != nil {
 		return "", fmt.Errorf("error decoding response body: %w", err)
 	}
@@ -511,12 +508,11 @@ func deleteJumpServerInstance(config *config.Config, token string, asset Asset) 
 }
 
 func UpdateAssetJd2JumpServer(config *config.Config, token string, pks []string, asset Asset) (string, error) {
-	//根据Instance获取pk
 	assetData := map[string]interface{}{
 		"name":    asset.Name,
-		"address": asset.Address, // 假设使用第一个私有IP地址
+		"address": asset.Address,
 		"platform": map[string]interface{}{
-			"pk": asset.Platform.ID, // 根据实际情况设置平台的 pk
+			"pk": asset.Platform.ID,
 		},
 		"nodes": []map[string]interface{}{
 			//{
@@ -530,7 +526,6 @@ func UpdateAssetJd2JumpServer(config *config.Config, token string, pks []string,
 		//"labels":    asset.Labels,
 	}
 
-	// 将 pks 组装进 nodes
 	for _, pk := range pks {
 		node := map[string]interface{}{
 			"pk": pk,

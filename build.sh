@@ -35,6 +35,12 @@ for target in "${targets[@]}"; do
     cp config.yml "dist/config.yml"
     cp jd2jumpserver.sh "dist/jd2jumpserver.sh"
 
+    # 单独拷贝linux版本
+    cp jd2jumpserver.sh "dist/jd2jumpServer/jd2jumpserver.sh"
+    cp config.yml "dist/jd2jumpServer/config.yml"
+    cp dist/jdcloudVm2Jumpserver-linux-amd64 "dist/jd2jumpServer/jdcloudVm2Jumpserver"
+
+
     if [ $? -ne 0 ]; then
         echo "Failed to copy config.yml for $GOOS/$GOARCH"
         exit 1

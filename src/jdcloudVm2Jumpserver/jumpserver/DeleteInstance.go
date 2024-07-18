@@ -97,7 +97,7 @@ func getOtherPk(asset Asset, configTags []config.Tag) []string {
 	return pks
 }
 
-func lastPk1(config *config.Config, instance models.Instance, asset Asset) []string {
+func lastPk1_old(config *config.Config, instance models.Instance, asset Asset) []string {
 	var pks []string
 	instanceTag := instance.Tags
 	if instanceTag == nil || len(instanceTag) == 0 {
@@ -136,6 +136,47 @@ func lastPk1(config *config.Config, instance models.Instance, asset Asset) []str
 	if pks == nil || len(pks) == 0 {
 		return pks
 	}
+	return removeDuplicateStrings(pks)
+}
+
+func lastPk1(config *config.Config, instance models.Instance, asset Asset) []string {
+	var pks []string
+
+	instanceTag := instance.Tags
+	if len(instanceTag) == 0 {
+		return pks
+	}
+
+	matchTag := matchTags(instanceTag, config.Tags)
+	if len(matchTag) == 0 {
+		return pks
+	}
+
+	nodes := asset.Nodes
+	if len(nodes) == 0 {
+		return matchTag
+	}
+
+	var apks []string
+	for _, node := range nodes {
+		apks = append(apks, node.ID)
+	}
+
+	if isSubset(apks, matchTag) {
+		return pks
+	}
+
+	last1 := intersection(matchTag, apks)
+	last := difference(matchTag, apks, config.Tags)
+
+	if len(last1) > 0 {
+		pks = append(pks, last1...)
+	}
+
+	if len(last) > 0 {
+		pks = append(pks, last...)
+	}
+
 	return removeDuplicateStrings(pks)
 }
 
