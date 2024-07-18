@@ -14,7 +14,7 @@ func Init() {
 	}
 
 	for _, da := range config.Tags {
-		log.Printf("key %s value %s", da.Key, da.Value)
+		log.Printf("key %s value %s \n", da.Key, da.Value)
 	}
 
 	// 获取执行间隔时间
